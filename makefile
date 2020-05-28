@@ -1,5 +1,5 @@
 .PHONY: clean
-all: bin/main
+all: bin/main bin/test
 
 ./bin/test: ./build/test/test_func.o ./build/src/func.o 
 	g++ -Wall -I src -Werror -o ./bin/test ./build/src/func.o ./build/test/test_func.o -lm
