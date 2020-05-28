@@ -10,5 +10,6 @@ all: bin/main
 ./build/src/func.o: ./src/func.cpp
 	g++ -std=c++17 -c -o  ./build/src/func.o ./src/func.cpp -lm
 
+
 clean:
 	rm -rf bin/* build/src/*o build/test/*o
