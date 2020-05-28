@@ -1,15 +1,15 @@
+#include "func.h"
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <string>
 #include <vector>
-const double PI = 3.1415926535;
-static const size_t npos = -1;
-
 using namespace std;
+
 struct data_figure {
     vector<string> name;
     vector<double> x;
@@ -19,6 +19,31 @@ struct data_figure {
     vector<double> perimetr;
     vector<double> area;
 } figure;
+
+float perimeters(float r)
+{
+    if (r < 0)
+        r *= -1;
+    if (r == 0) {
+        printf("error");
+        return 0;
+    }
+    float perimetr = 3.14 * r * 2;
+    return perimetr;
+}
+
+float areas(float r)
+{
+    if (r < 0)
+        r *= -1;
+    if (r == 0) {
+        printf("error");
+        return 0;
+    }
+    float ar = 3.14 * r * r;
+    return ar;
+}
+
 void out_figure()
 {
     double a, b, c, h;
@@ -26,10 +51,10 @@ void out_figure()
     for (int k = 0; k < h; k++) {
         cout << k + 1 << ". " << figure.name[k] << "(" << figure.x[k] << ", "
              << figure.y[k] << ", " << figure.r[k] << ")" << endl;
-        b = 2 * PI * figure.r[k];
+        b = perimeters(figure.r[k]);
         cout << "perimeter =" << b;
         cout << endl;
-        c = PI * pow(figure.r[k], 2);
+        c = areas(figure.r[k]);
         cout << "area =" << c << endl;
         cout << "intersects:" << endl;
         for (int j = 0; j < h; j++) {
@@ -45,31 +70,13 @@ void out_figure()
     }
 }
 
-/*int get_num(string com)
-{
-    double e;
-    e = com.length();
-    string num = "";
-    for (int i = q; i < e; i++) {
-        if ((com[i] == ' ') || (com[i] == ',') || (com[i] == ')')) {
-            break;
-        } else {
-            num += com[i];
-            q++;
-        }
-    }
-    q += 2;
-    return stoi(num);
-}*/
-
 int get_num(string com, int pos, int start_pos)
 {
     double e;
     e = com.length();
     string num = "";
     int q = start_pos;
-    for (int j = 0; j <= pos; j++)
-    {
+    for (int j = 0; j <= pos; j++) {
         num = "";
         for (int i = q; i < e; i++) {
             if ((com[i] == ' ') || (com[i] == ',') || (com[i] == ')')) {
@@ -83,15 +90,23 @@ int get_num(string com, int pos, int start_pos)
     }
     return stoi(num);
 }
-
+int proverka(string com)
+{
+    size_t npos = -1;
+    if (com.find("circle") != npos) {
+        return 1;
+    } else
+        return -1;
+}
 void get_figure()
 {
     size_t npos = -1;
-    // int q = 0;
+    int a = 0;
     string com;
     while (com.find("stop")) {
         getline(cin, com);
-        if (com.find("circle") != npos) {
+        a = proverka(com);
+        if (a != npos) {
             figure.name.push_back("circle");
             // q = 7;
             figure.x.push_back(get_num(com, 0, 7));
@@ -99,14 +114,11 @@ void get_figure()
             figure.y.push_back(get_num(com, 1, 7));
             // out_figure(0);
             figure.r.push_back(get_num(com, 2, 7));
+        } else {
+            cout << endl << "Incorrect entry!Enter again:";
+            getline(cin, com);
         }
         // q = 0;
     }
     cout << endl;
-}
-
-int main()
-{
-    get_figure();
-    out_figure();
 }
